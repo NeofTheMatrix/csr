@@ -1,0 +1,174 @@
+#!/bin/bash
+# IBM
+# Conexión Shell Rápida (CSR)
+# Por Anderson J. Campos R. 2019
+
+die() {
+  printf '%s\n' "$1" >&2
+  exit 1
+}
+
+_scriptpath="$( cd "$(dirname "$0")" ; pwd -P )/csr-resources/csr"
+_defaultUser=`cat $_scriptpath-defaultUser.conf | xargs`
+_inv=$_scriptpath-inv.conf
+
+if [ "$1" ]; then
+  case $1 in
+    -h|-\?|--help)
+      more $_scriptpath-readme.txt
+      exit 0
+    ;;
+    -g|--global)
+      if [ "$2" ]; then
+          _server=$2
+          _user=$3
+          _globalS=true
+      else
+          die '(X) CSR: "--global" requiere un nombre de servidor como argumento, que esté registrado en el inventario. Use el comando "csr --help" para más información.'
+      fi
+    ;;
+    -p|--primary)
+      if [ "$2" ]; then
+          _server=$2
+          _user=$3
+          _primaryS=true
+      else
+          die '(X) CSR: "--primary" requiere un nombre de servidor como argumento, que esté registrado en el inventario. Use el comando "csr --help" para más información.'
+      fi
+    ;;
+    -sU|--setUser)
+      if [ "$2" ]; then
+        echo $2 > $_scriptpath-defaultUser.conf
+        echo '(i) CSR: Se estableció "'$2'" como usuario por defecto para las conexiones.'
+        exit 0
+      else
+        die '(X) CSR: "--setUser" requiere un nombre de usuario como argumento. Use el comando "csr --help" para más información.'
+      fi
+    ;;
+    -gU|--getUser)
+      cat $_scriptpath-defaultUser.conf
+      exit 0
+    ;;
+    -in|--insert)
+      case $2 in
+        o|p)
+          if [ "$3" ]; then     # <- Nombre del servidor
+            if [ "$4" ]; then   # <- IṔ del servidor
+              echo "" >> $_inv
+              echo "$2 | $3 | $4" >> $_inv
+              die "(i) CSR: Se ingresó el host $3 al inventario"
+            else
+              die '(X) CSR: "--insert" debe indicar la dirección IP del servidor como tercer argumento. Use el comando "csr --help" para más información.'
+            fi
+          else
+            die '(X) CSR: "--insert" debe indicar el nombre del servidor como segundo argumento. Use el comando "csr --help" para más información.'
+          fi
+        ;;
+        g|v)
+          if [ "$3" ]; then     # <- Nombre del servidor
+            if [ "$4" ]; then   # <- IṔ del servidor
+              if [ "$5" ]; then   # <- Nombre del servidor primario
+                blong=`cat $_inv | wc -l`
+                newline="$2 | $3 | $4"
+                printf '%s\n' /$5/a "${newline}" . w q | ex -s $_inv
+                along=`cat $_inv | wc -l`
+                if [ $blong -eq $along ]; then
+                  die "(X) CSR: No se encontró el host $5 en el inventario."
+                else
+                  die "(i) CSR: Se ingresó el host $3 al inventario."
+                fi
+              else
+                die '(X) CSR: "--insert" debe indicar el nombre del servidor primario o zona global donde se encuentra este host, como cuarto argumento. Use el comando "csr --help" para más información.'
+              fi
+            else
+              die '(X) CSR: "--insert" debe indicar la dirección IP del servidor como tercer argumento. Use el comando "csr --help" para más información.'
+            fi
+          else
+            die '(X) CSR: "--insert" debe indicar el nombre del servidor como segundo argumento. Use el comando "csr --help" para más información.'
+          fi
+        ;;
+        *)
+          die '(X) CSR: "--insert" debe indicar el tipo de servidor como primer argumento (p,g,v,o). Use el comando "csr --help" para más información.'
+        ;;
+      esac
+    ;;
+    *)
+      _server=$1
+      _user=$2
+    ;;
+  esac
+
+else
+  echo '(X) CSR: No se proporcionó ningún parámetro. Use el comando "csr --help" para más información.'
+  exit
+fi
+
+
+#---------------------------------------------------------------------
+echo "(i) CSR: Buscando $_server..."
+
+while IFS= read -r line; do
+  server=`echo "$line" | awk -F"|" '{print $2}'| xargs`
+  typeServer=`echo "$line" | awk -F"|" '{print $1}'| xargs`
+  ipserver=`echo "$line" | awk -F"|" '{print $3}'| xargs`
+
+  case $typeServer in
+  	p|P)
+  		currentPrimaryServer=$server
+      currentPrimaryipServer=$ipserver
+  	;;
+  	g|G)
+  		currentGlogalServer=$server
+      currentGlogalipServer=$ipserver
+  	;;
+  esac
+
+  # Si es el servidor que estamos buscando:
+  if [ "$_server" = "$server" ]; then
+  	echo "(i) CSR: Host encontrado"
+    serverFound=true
+    break
+  fi
+
+done < $_inv
+
+#---------------------------------------------------------------------
+
+if [ $serverFound ]; then
+  # Por si se necesita usar el editor vi en el servidor objectivo:
+  export TERM=xterm
+  
+  if [ $_globalS ]; then
+    echo "(i) CSR: La zona global de $_server según su inventario es: $currentGlogalServer"
+    _server=$currentGlogalServer
+    ipserver=$currentGlogalipServer
+  else
+    if [ $_primaryS ]; then
+      echo "(i) CSR: El servidor primario donde se encuentra $_server según su inventario es: $currentPrimaryServer"
+      _server=$currentPrimaryServer
+      ipserver=$currentPrimaryipServer
+    fi
+  fi
+
+
+  if [ "$_user" ]; then
+    echo "(i) CSR: Conectando a ''$_server ($ipserver)'' con el usuario ''$_user'' protocolo ssh"
+    ssh $_user@$ipserver
+  else
+    echo "(i) CSR: Conectando a ''$_server ($ipserver)''con el usuario ''$_defaultUser'' protocolo ssh"
+    ssh $_defaultUser@$ipserver
+  fi
+
+else
+  echo "(X) CSR: Servidor No Encontrado."
+  echo "(X) CSR: No se encontró el servidor $_server en el inventario. Por favor verifique si está bien escrito."
+  echo '(X) CSR: Si quizo indicar una opción, verifique que esté bien escrita. Use el comando "csr --help" para más información.'
+fi
+
+exit 0
+
+
+
+
+
+
