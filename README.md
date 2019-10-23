@@ -1,12 +1,14 @@
-## csr
+# csr
 Conexión Shell Rápida (Para conectarse rápidamente a servidores usando solo el hostname cuando no está disponible el DNS)
 
 
-# NOMBRE
+### NOMBRE
 
-    csr — Conexión Shell Rápida (Para conectarse rápidamente a servidores usando solo el hostname cuando no está disponible el DNS)
+csr — Conexión Shell Rápida (Para conectarse rápidamente a servidores usando solo el hostname cuando no está disponible el DNS)
 
-# DESCRIPCIÓN
+
+### DESCRIPCIÓN
+
 CSR permite conectarse a host remotos mediante protocolos seguros como SSH usando un inventario preconfigurado. Esto le permite a los administradores de sistemas UNIX ubicar y conectarse rápidamente a servidores UNIX virtuales o físicos mediante el protocolo SSH, directamente desde su terminal de linux, sin necesidad de usar herramientas gráficas.  
 
 CSR puede ser útil cuando no tenga disponible un servicio DNS para conectarse a todos los servidores. Solo debe configurar el inventario con la información de todos los host de destino.
@@ -27,35 +29,33 @@ Configuración Inicial:
 
 # SYNOPSIS
 
-    Conexión:
+Conexión:
+```shell
         csr [-Opciones] [Nombre del servidor] [Usuario (Opcional)]
-
-    Configuración:
+```
+Configuración:
+```shell
         csr [-Opciones] [Argumentos]
-
+```
 
 
 ## USO BÁSICO
 
-    La idea de CSR es simplicar la conexión ssh a los servidores administrados.
-    Por lo que una vez preconfigurado el usuario por defecto y el inventario de
-    servidores, podrá usar el siguiente comando para conectarse rapidamente a 
-    ellos:
-
+La idea de CSR es simplicar la conexión ssh a los servidores administrados. Por lo que una vez preconfigurado el usuario por defecto y el inventario de servidores, podrá usar el siguiente comando para conectarse rapidamente a ellos:
+```shell
         csr [ Nombre del servidor ]
 
         csr hostname
-
-    Para usar un usuario diferente al configurado por defecto, solo debe indicarlo
-    como un segundo argumento:
-
+```
+Para usar un usuario diferente al configurado por defecto, solo debe indicarlo como un segundo argumento:
+```shell
         csr [ Nombre del servidor ] [ Nombre del usuario ]
 
         csr hostname username
-
+```
 
 ## OPCIONES
-    
+
      -h     --help Muestra el documento de ayuda de csr.
 
             Uso:
@@ -157,14 +157,12 @@ Configuración Inicial:
 
 ## ACERCA DE CSR
 
-    Conexión Shell Rápida
-    Versión 0.1
-    Desarrollado por: Anderson José Campos Rosales
-    Licencia MIT
+   Conexión Shell Rápida
+   Versión 0.1
+   Desarrollado por: Anderson José Campos Rosales
+   Licencia MIT
 
 ## ADVERTENCIAS
     
-    Por medidas de seguridad, CSR no fue creado para almacenar contraseñas de 
-    servidores. Queda bajo su responsabilidad las consecuencias de modificar 
-    cuanlquier versión de CSR para que también cumpla con esa función.
+Por medidas de seguridad, CSR no fue creado para almacenar contraseñas de servidores. Queda bajo su responsabilidad las consecuencias de modificar cualquier versión de CSR para que también cumpla con esa función.
 
