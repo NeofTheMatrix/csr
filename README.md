@@ -145,9 +145,9 @@ Agregar un host de cualquier otro tipo:
 
 ### ACERCA DE CSR
 
-   Conexión Shell Rápida
+   Conexión Shell Rápida.
    Versión 0.1
-   Desarrollado por: Anderson José Campos Rosales
+   Desarrollado por: Anderson José Campos Rosales.
    Licencia MIT
 
 
