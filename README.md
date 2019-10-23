@@ -108,7 +108,7 @@ Uso:
     csr --insert [ Tipo de host ] [ Nombre del nuevo host ] [ dirección ip del nuevo host ] [ Nombre de host padre ]
 
 
-Tipos de host:
+Tipos de host:<br>
                 p: Primary host, para identificar el host primario de servidores cluster.<br>
                 g: Global zone, para indentificar zonas globales de servidores Oracle.<br>
                 v: Zonas virtuales, para indentifcar host virtuales o zonas virtuales de
