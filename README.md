@@ -1,12 +1,31 @@
-# csr
+## csr
 Conexión Shell Rápida (Para conectarse rápidamente a servidores usando solo el hostname cuando no está disponible el DNS)
 
 
-## NOMBRE
+# NOMBRE
 
     csr — Conexión Shell Rápida (Para conectarse rápidamente a servidores usando solo el hostname cuando no está disponible el DNS)
 
-## SYNOPSIS
+# DESCRIPCIÓN
+CSR permite conectarse a host remotos mediante protocolos seguros como SSH usando un inventario preconfigurado. Esto le permite a los administradores de sistemas UNIX ubicar y conectarse rápidamente a servidores UNIX virtuales o físicos mediante el protocolo SSH, directamente desde su terminal de linux, sin necesidad de usar herramientas gráficas.  
+
+CSR puede ser útil cuando no tenga disponible un servicio DNS para conectarse a todos los servidores. Solo debe configurar el inventario con la información de todos los host de destino.
+
+También posee otras utilidades para el caso de servidores Oracle. Como ubicar la Zona global o servidores primarios donde se encuentra el servidor virtual que especifique y conectarse a ellos. De esta manera podrá encontrarlos facilmente si no recuerda cuales son.
+
+Configuración Inicial:
+----------------------
+
+1- Coloque todos los archivos de CSR en su carpeta ~/bin para que pueda usar el comando csr desde cualquier ubicación.
+
+2- Use el siguiente comando para configurar el usuario por defecto: 
+```shell
+    csr --setUser [ Nombre del usuario ]
+```
+
+
+
+# SYNOPSIS
 
     Conexión:
         csr [-Opciones] [Nombre del servidor] [Usuario (Opcional)]
@@ -14,31 +33,6 @@ Conexión Shell Rápida (Para conectarse rápidamente a servidores usando solo e
     Configuración:
         csr [-Opciones] [Argumentos]
 
-
-## DESCRIPCIÓN
-
-     CSR permite conectarse a host remotos mediante protocolos seguros como SSH 
-     usando un inventario preconfigurado. Esto le permite a los administradores 
-     de sistemas UNIX ubicar y conectarse rápidamente a servidores UNIX virtuales 
-     o físicos mediante el protocolo SSH, directamente desde su terminal de linux, 
-     sin necesidad de usar herramientas gráficas.  
-
-     CSR puede ser útil cuando no tenga disponible un servicio DNS para conectarse a 
-     todos los servidores. Solo debe configurar el inventario con la información de 
-     todos los host de destino.
-
-     También posee otras utilidades para el caso de servidores Oracle. Como ubicar 
-     la Zona global o servidores primarios donde se encuentra el servidor virtual 
-     que especifique y conectarse a ellos. De esta manera podrá encontrarlos 
-     facilmente si no recuerda cuales son.
-
-     Configuración Inicial:
-     ----------------------
-        1- Coloque todos los archivos de CSR en su carpeta ~/bin para que pueda usar el 
-           comando csr desde cualquier ubicación.
-
-        2- Use el siguiente comando para configurar el usuario por defecto: 
-             csr --setUser [ Nombre del usuario ]
 
 
 ## USO BÁSICO
