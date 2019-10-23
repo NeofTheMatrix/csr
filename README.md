@@ -109,10 +109,10 @@ Uso:
 
 
 Tipos de host:
-                p: Primary host, para identificar el host primario de servidores cluster.
-                g: Global zone, para indentificar zonas globales de servidores Oracle.
+                p: Primary host, para identificar el host primario de servidores cluster.<br>
+                g: Global zone, para indentificar zonas globales de servidores Oracle.<br>
                 v: Zonas virtuales, para indentifcar host virtuales o zonas virtuales de
-                   servidores Oracle.
+                   servidores Oracle.<br>
                 o: Otros tipo de host
 
 Ejemplos:
@@ -145,9 +145,9 @@ Agregar un host de cualquier otro tipo:
 
 ### ACERCA DE CSR
 
-   Conexión Shell Rápida.
-   Versión 0.1
-   Desarrollado por: Anderson José Campos Rosales.
+   Conexión Shell Rápida.<br>
+   Versión 0.1<br>
+   Desarrollado por: Anderson José Campos Rosales.<br>
    Licencia MIT
 
 
